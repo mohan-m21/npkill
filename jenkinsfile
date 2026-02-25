@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('GIT Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Mohan_GITHUB', url: 'https://github.com/mohan-m21/npkill.git']])
+            }
+        }
+        stage('Installing dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        stage('start') {
+            steps {
+                sh 'npm install tsconfig-paths'
+                sh 'npm start'
+            }
+        }
+    }
+}
